@@ -1,0 +1,34 @@
+{% extends "base.twig" %}
+
+{% block title %}{{this.title}}{% endblock %}
+{% block page %}
+	<div class="container-fluid">
+		<table data-toggle="table"
+		       data-pagination="true"
+		       data-page-list="[5, 10, 20, 50, 100, 200]"
+		       data-search="true"
+		       data-height="500">
+		    <thead>
+			    <tr>
+			        <th data-field="name" data-align="left">Name</th>
+			        <th data-field="type" data-align="center" data-sortable="true">Type</th>
+			        <th data-field="tab"  data-align="center" data-sortable="true">Tab</th>
+			    </tr>
+		    </thead>
+		    <tbody>
+				{% for value in midias %}
+					<tr>
+						<td><a href="{{ value|format_edit_url }}" class="text-info">
+							<strong>{{ value['midia_name'] }}</strong>
+						</a></td>
+						<td>{{ value['midia_which'] }}</td>
+						<td>{{ value['midia_tab'] }}</td>
+					</tr>
+				{% endfor %}
+		    </tbody>
+		</table>
+	</div>
+{% endblock %}
+
+{% block modals %}
+{% endblock %}

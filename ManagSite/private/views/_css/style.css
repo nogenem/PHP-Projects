@@ -1,0 +1,185 @@
+/* Global Styles */
+body {
+    margin-top: 45px;
+    background-color: #222;
+}
+
+#wrapper {
+    padding-left: 0;
+}
+
+#page-wrapper {
+    width: 100%;
+    padding: 0;
+    background-color: #fff;
+}
+
+/* My edits */
+.tab-content {
+    border-left: 1px solid #E8E8E8;
+    border-right: 1px solid #E8E8E8;
+}
+
+.accordion_btns {
+    margin-top: 5px;
+}
+
+.accordion-btn-add {
+    margin-left: 1px;
+}
+
+ul .my_active{
+    background-color: black;
+} 
+
+.my_active > a {
+    color: #fff !important;
+    text-decoration: bold !important;
+}  
+
+.my-btn-primary:hover,
+.my-btn-primary:focus,
+.my-btn-primary.focus,
+.my-btn-primary:active,
+.my-btn-primary.active {
+    color: #fff !important;
+    background-color: #286090 !important;
+    border-color: #204d74 !important;
+}
+
+.navbar-form > button {
+    background: none;
+    border: 0;
+    color: #e0e0e0;
+    text-decoration: none;
+    outline: none;
+    -webkit-transition: color 0.1s;
+    -o-transition: color 0.1s;
+    transition: color 0.1s;
+}
+
+/* Top Navigation */
+.top-nav {
+    padding: 0 15px;
+}
+
+.top-nav>li {
+    display: inline-block;
+    float: left;
+}
+
+.top-nav>li>a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 20px;
+    color: #999;
+}
+
+.top-nav>.open>.dropdown-menu a {
+    color: black !important;
+}
+
+.top-nav>.open>.dropdown-menu a:hover,
+.top-nav>.open>.dropdown-menu a:focus{
+    color: black !important;
+    background-color: #dddddd !important;
+}
+
+.top-nav>.open>.dropdown-menu {
+    float: left;
+    position: absolute;
+    margin-top: 0;
+    border: 1px solid rgba(0,0,0,.15);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background-color: #fff;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
+.top-nav>.open>.dropdown-menu>li>a {
+    white-space: normal;
+}
+
+/* Side Navigation */
+.side-nav>li>ul {
+    padding: 0;
+}
+
+.side-nav>li>ul>li>a {
+    display: block;
+    padding: 10px 15px 10px 38px;
+    text-decoration: none;
+    color: #999;
+}
+
+.side-nav>li>ul>li>a:hover {
+    color: #fff;
+}
+
+/* Responsive */
+
+@media(min-width:768px) {
+    body {
+        margin-top: 50px;
+    }
+
+    #wrapper {
+        padding-left: 225px;
+    }
+
+    #page-wrapper {
+        padding: 10px;
+    }
+
+    .side-nav {
+        position: fixed;
+        top: 51px;
+        left: 225px;
+        width: 225px;
+        margin-left: -225px;
+        border: none;
+        border-radius: 0;
+        overflow-y: auto;
+        background-color: #222;
+    }
+
+    .navbar-static-top{
+        margin-left: -225px;
+    }
+
+    .side-nav>li>a {
+        width: 225px;
+    }
+
+    .side-nav li a:hover,
+    .side-nav li a:focus {
+        outline: none;
+        background-color: #000 !important;
+    }
+    
+    /* My edits */
+    .my_acc {
+        height: 500px;
+        overflow-y: scroll;
+    }
+
+    .modal-dialog.large {
+        width: 70%;
+    }
+}
+
+@media(max-width:767px) {
+    body {
+        margin-top: 50px; /* 172px */
+    }
+
+    #page-wrapper {
+        padding-top: 10px !important;
+    }
+    
+    /* My edits */
+    .links-over-flow {
+        overflow-x: scroll;
+    }
+}

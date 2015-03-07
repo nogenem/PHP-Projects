@@ -1,0 +1,48 @@
+{% extends "base.twig" %}
+
+{% block title %}{{this.title}}{% endblock %}
+{% block page %}
+
+	<div role="tabpanel"> 
+	
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs nav-justified" role="tablist" id="tablist">
+			{% for tab in this.view_config['tabs'] %}
+				<li role="presentation" name="{{ tab }}"> 
+					<a href="#{{ tab }}" aria-controls="{{ tab }}" role="tab" data-toggle="tab">
+						{{ tab|correct }}
+					</a>
+				</li>
+			{% endfor %}
+			<li role="presentation">
+		    	<a id="btn_add_midia" href="{{ this.url ~ '/index/add' }}" class="btn btn-primary my-btn-primary"> 
+		    		Add {{ this.title|correct('remove-s') }}
+		    	</a>
+		    </li>
+		</ul>
+
+		<!-- Tab panes -->
+		<div class="tab-content">
+			{% for tab in this.view_config['tabs'] %}
+				<div role="tabpanel" class="tab-pane fade" id="{{ tab }}">
+					<div class="container-fluid my_acc">
+						<div class="panel-group" id="acc_{{ tab }}">
+							{% if midias[tab] != null %}
+								{% for key, midia in midias[tab] %}
+									{% set midia = midia|merge({'midia_id':key}) %}
+									{{ modelo.create_accordion(tab, midia)|raw }}
+								{% endfor %}
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
+	</div><!-- role=tabpanel -->
+
+{% endblock %}
+
+{% block modals %}
+	{% include "_includes/modals/midia-modal.twig" %}
+{% endblock %}

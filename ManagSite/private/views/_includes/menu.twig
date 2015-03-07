@@ -1,0 +1,81 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid">
+		<!-- Header -->
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="{{ HOME_URI }}">ManagSite</a>
+	    </div>
+	    
+	    <!-- Collapse -->
+    	<div class="navbar-collapse collapse" id="navbar" style="height: auto;">
+			<!-- Sidebar -->
+      		<ul class="nav navbar-nav side-nav">
+      			<li id="Home">
+      				<a href="{{HOME_URI}}"><i class="fa fa-fw fa-home"></i> Home</a>
+      			</li>
+				{% if this.logged_in %}
+					<li id="Games">
+						<a href="{{HOME_URI}}games/"><i class="fa fa-fw fa-gamepad"></i> Games</a>
+					</li>
+					
+					<li>
+						<a id="movie_collapse_head" href="javascript:;" data-toggle="collapse" data-target="#movie_collapse">
+							<i class="fa fa-fw fa-film"></i> Movies <i class="fa fa-fw fa-caret-down"></i>
+						</a>
+						<ul id="movie_collapse" class="collapse">
+							<li id="Cine_Movies">
+								<a href="{{HOME_URI}}cine-movies/">Cine Movies</a>
+							</li>
+						</ul>
+					</li>
+
+					<li id="Series">
+						<a href="{{HOME_URI}}series/"><i class="fa fa-fw fa-desktop"></i> Series</a>
+					</li>
+					<li id="Links">
+						<a href="{{HOME_URI}}links/"><i class="fa fa-fw fa-link"></i> Links</a>
+					</li>
+				{% endif %}
+      		</ul>
+
+      		<!-- Right Menus -->
+      		<ul class="nav navbar-nav navbar-right top-nav">
+				{% if this.logged_in %}
+					<li class="dropdown">
+		              	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> 
+		                	{{ this.userdata['user_name'] }}
+		              	<b class="caret"></b></a>
+		              	<ul class="dropdown-menu">
+		                  	<li>
+		                      	<a href="{{HOME_URI}}logout/"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+		                  	</li>
+		              	</ul>
+		          	</li>
+		        {% else %}
+		        	<li>
+	              		<a href="#register-modal" data-toggle="modal"><i class="fa fa-fw fa-user-plus"></i> Register</a>
+	          		</li>
+	          		<li>
+	              		<a href="#login-modal" data-toggle="modal"><i class="fa fa-fw fa-sign-in"></i> Login</a>
+	          		</li>
+				{% endif %}
+      		</ul>
+      		{% if this.logged_in %}
+				<form id="searchForm" class="navbar-form navbar-right" method="get" action="{{HOME_URI}}search/">
+		          	<div class="form-group" style="display:inline;">
+		            	<div class="input-group"> 
+		              		<input type="text" class="form-control" name="midia_name" placeholder="Search...">
+		              		<span id="searchBtn" class="input-group-addon"><span class="fa fa-search"></span></span>
+		            	</div>
+		          	</div>
+		        </form>
+      		{% endif %}
+      	</div>
+
+	</div>
+</nav>

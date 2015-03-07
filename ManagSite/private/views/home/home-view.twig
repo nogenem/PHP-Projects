@@ -1,0 +1,81 @@
+{% extends "base.twig" %}
+
+{% block title %}{{this.title}}{% endblock %}
+{% block page %}
+	<div class="container-fluid">
+		{% if this.login_error %}
+			{{this.login_error|raw}}
+		{% endif %}
+		{% if modelo.form_msg %}
+			{{ modelo.form_msg|raw }}
+		{% endif %}
+		<p class="bg-primary" style="padding: 10px;">
+			Hello, Welcome to the ManagSite, site for management of games, series, movies and links.
+		</p>
+
+		{% if midias['cine_movie'] and midias['cine_movie']['not_released'] %}
+			<div id="cine_movies-toolbar"><h3>Cine Movies</h3></div>
+			<table data-toggle="table"
+			       data-pagination="true"
+			       data-page-list="[5, 10, 20, 50, 100, 200]"
+			       data-toolbar="#cine_movies-toolbar"
+			       data-height="500">
+						<thead>
+							<tr>
+								<th data-field="name">Name</th>
+								<th data-field="date">Date</th>
+								<th data-field="comments">Comments</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for key, value in midias.cine_movie.not_released %}
+								<tr {{ (value.midia_date|is_valid_date and (date(now) > date(value.midia_date))) ?
+									'class="danger"' : '' }}>
+									<td><a href="{{ value|format_edit_url }}" class="text-info">
+										<strong>{{ value.midia_name }}</strong>
+									</a></td>
+									<td>{{ value.midia_date|format_date('Y-m-d', 'd/m/Y') }}</td>
+									<td>{{ value.midia_comments }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+				</table>	
+		{% endif %}
+
+		{% if midias['game'] and midias['game']['not_released'] %}
+			<div id="games-toolbar"><h3>Games</h3></div>
+			<table data-toggle="table"
+			       data-pagination="true"
+			       data-page-list="[5, 10, 20, 50, 100, 200]"
+			       data-toolbar="#games-toolbar"
+			       data-height="500">
+						<thead>
+							<tr>
+								<th data-field="name">Name</th>
+								<th data-field="date">Date</th>
+								<th data-field="comments">Comments</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for key, value in midias.game.not_released %}
+								<tr {{ (value.midia_date|is_valid_date and (date(now) > date(value.midia_date))) ?
+									 'class="danger"' : '' }}>
+									<td><a href="{{ value|format_edit_url }}" class="text-info">
+										<strong>{{ value.midia_name }}</strong>
+									</a></td>
+									<td>{{ value.midia_date|format_date('Y-m-d', 'd/m/Y') }}</td>
+									<td>{{ value.midia_comments }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+				</table>	
+		{% endif %}
+	</div>
+{% endblock %}
+
+{% block modals %}
+	{% if not this.logged_in %}
+		{% include "_includes/modals/login-modal.twig" %}
+		{% include "_includes/modals/register-modal.twig" %}
+	{% endif %}
+{% endblock %}

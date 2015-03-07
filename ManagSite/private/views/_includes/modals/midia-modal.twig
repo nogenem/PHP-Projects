@@ -1,0 +1,154 @@
+{% set week_days = {'seg':'Segunda','ter':'Terça','qua':'Quarta','qui':'Quinta','sex':'Sexta','sab':'Sabado','dom':'Domingo'} %}
+
+{% set id = modal_config['id'] %}
+{% set tab = modal_config['tab'] %}
+{% set is_edit = modal_config['is_edit'] %}
+{% set is_del = modal_config['is_del'] %}
+
+{# verifica se a tab e o id passados na URL sao validos #}
+{% if not ( (is_edit or is_del) and ( php_chk_array(midias, tab) is null or php_chk_array(midias[tab], id) is null ) ) %}
+
+{# Add/Edit Midia Modal #}
+<div class="modal fade" id="add-midia-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<h4 class="modal-title" id="myModalLabel">Add {{ this.title|correct('remove-s') }}</h4>
+    	  	</div>
+     	 	<form action="" method="post" class="form-horizontal">
+        		<div class="modal-body">
+        			{% if not (modelo.form_msg is null) %}
+						{{ modelo.form_msg|raw }}
+        			{% endif %}
+        			
+        			{% if 'midia_name' not in this.view_config['disabled_fields'] %}
+						<div class="form-group">
+			            	<label for="midia_name" class="col-lg-12 control-label">
+			              		<p class="text-left">{{ this.title|correct('remove-s') }} Name</p>
+			             	</label>
+			              	<div class="col-lg-12">
+			                	<input type="text" name="midia_name" class="form-control" id="midia_name" 
+			                		value="{{ is_edit ? midias[tab][id]['midia_name'] : null }}">
+			              	</div>
+			            </div>
+        			{% endif %}
+
+        			{% if 'midia_tab' not in this.view_config['disabled_fields'] %}
+        				<div class="form-group">
+        				  	<label for="midia_tab" class="col-lg-12 control-label"><p class="text-left">Which Tab</p></label>
+        				  	<div class="col-lg-12">
+        				    	<select id="midia_tab" name="midia_tab" class="form-control">
+        				    		{% for val_tab in this.view_config['tabs'] %}
+										<option value="{{ val_tab }}" {{ (is_edit and tab==val_tab) ? 'selected' : null }}>
+											{{ val_tab|correct }}
+										</option>
+        				    		{% endfor %}
+        				    	</select>
+        				  	</div>
+        				</div>
+					{% endif %}
+
+					{% if 'midia_comments' not in this.view_config['disabled_fields'] %}
+						<div class="form-group">
+			              	<label for="midia_comments" class="col-lg-12 control-label"><p class="text-left">Comments</p></label>
+			              	<div class="col-lg-12">
+			                	<input type="text" name="midia_comments" class="form-control" id="midia_comments" 
+			                		value="{{ is_edit ? midias[tab][id]['midia_comments'] : null }}">
+			              	</div>
+			            </div>
+					{% endif %}
+
+					{% if 'midia_week_day' not in this.view_config['disabled_fields'] %}
+						<div class="form-group">
+			              	<label for="week_day_select" class="col-lg-12 control-label"><p class="text-left">Week Day</p></label>
+			              	<div class="col-lg-12">
+			                	<select multiple size=3 id="week_day_select" name="midia_week_day[]" class="form-control">
+			                		{% for abbr, full in week_days %}
+										<option value="{{ abbr }}" 
+											{{ (is_edit and midias[tab][id]['midia_week_day']|contains(abbr)) ? 'selected' : null }}>
+											
+											{{ full }}
+										</option>
+			                		{% endfor %}
+			                	</select>
+			              	</div>
+			            </div>
+					{% endif %}
+
+					{% if 'midia_date' not in this.view_config['disabled_fields'] %}
+						<div class="form-group">
+			              	<label for="midia_date" class="col-lg-12 control-label"><p class="text-left">Date</p></label>
+			              	<div class="input-group date container-fluid" id="datepicker">
+			                	<input type="text" name="midia_date" id="midia_date" class="form-control" 
+			                		value="{{ is_edit ? midias[tab][id]['midia_date']|format_date('Y-m-d', 'd/m/Y') : null }}">
+			                  	<span class="input-group-addon">
+			                    	<i class="fa fa-calendar"></i>
+			                  	</span>
+			              	</div>
+			            </div>
+					{% endif %}
+
+					{% if 'midia_links' not in this.view_config['disabled_fields'] %}
+						<div class="form-group">
+			              	<label for="midia_links" class="col-lg-12 control-label"><p class="text-left">Links</p></label>
+			              	<div class="col-lg-12">
+<textarea type="text" name="midia_links" class="form-control" id="midia_links">
+{% spaceless %}
+{% if is_edit %}
+{% for link in midias[tab][id]['links'] %}
+{{ link['link_address']|trim }}
+{% endfor %}
+{% endif %}
+{% endspaceless %}</textarea>
+			              	</div>
+			            </div>
+					{% endif %}
+				</div><!-- body -->
+
+				<div class="modal-footer">
+		          	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		          	<button type="submit" class="btn btn-primary">
+		          		{{ (is_edit ? 'Edit' : 'Add') ~ ' ' ~ (this.title|correct('remove-s')) }}
+		          	</button>
+		        </div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+<!-- Detele Midia Modal -->
+<div class="modal fade" id="delete-midia-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+  	<div class="modal-dialog">
+    	<div class="modal-content">
+      
+	      	<div class="modal-header">
+	        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        	<h4 class="modal-title" id="myModalLabel2">Delete {{ this.title|correct('remove-s') }}</h4>
+	      	</div>
+	      
+	      	<div class="modal-body">
+	      		{% if not (modelo.form_msg is null) %}
+					{{ modelo.form_msg }}
+	      		{% endif %}
+	        	<div class="form-group">
+	            	<p class="text-left">[{{ midias[tab][id]['midia_name'] }}]</p> 
+	            	<p class="text-left">
+	             		Are you such that you want to delete this {{ this.title|correct('remove-s')|lower }}?
+	            	</p>
+	        	</div>
+	      	</div>
+
+	      	<div class="modal-footer">
+	        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        	<a href="{{ full_url }}/confirma" class="btn btn-primary">
+	          		Delete {{ this.title|correct('remove-s') }}
+	        	</a>
+	      	</div>
+      
+    	</div>
+  	</div>
+</div>
+
+{% endif %}
